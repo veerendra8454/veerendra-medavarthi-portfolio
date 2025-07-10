@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Projects - Veerendra Medavarthi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .project-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      min-height: 350px;
+    }
+    .project-card:hover {
+      transform: translateY(-6px) scale(1.02);
+    }
+    .project-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #eee;
+    }
+    .project-content {
+      padding: 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .btn {
+      margin-top: 1rem;
+      padding: 0.6em 1.2em;
+      border: none;
+      border-radius: 6px;
+      background: #0078d7;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn.disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .project-img { height: 120px; }
+      .modal-content { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="container" style="padding: 40px;">
+    <h2 data-aos="fade-up">Featured Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card" data-aos="fade-up" tabindex="0" aria-label="Dayush Mobile App" onclick="openModal(0)">
+        <img src="https://placehold.co/400x180?text=Dayush+App" alt="Dayush Mobile App" class="project-img">
+        <div class="project-content">
+          <h3>Dayush Mobile App</h3>
+          <p>Ayurveda consultation platform. Designed wireframes, user flows, and prototypes in Figma.</p>
+          <a href="https://www.figma.com/design/TPdX7PDMkHnHpZ4mGkUnUF/DAYUSH?node-id=0-1" target="_blank" class="btn" onclick="event.stopPropagation()">🔗 View Project</a>
+        </div>
+      </div>
+      <div class="project-card" data-aos="fade-up" data-aos-delay="100" tabindex="0" aria-label="Starz Mobile App" onclick="openModal(1)">
+        <img src="https://placehold.co/400x180?text=Starz+App" alt="Starz Mobile App" class="project-img">
+        <div class="project-content">
+          <h3>Starz Mobile App</h3>
+          <p>Helps students manage jobs, housing, and classes. Led end-to-end UI/UX design with stakeholder feedback.</p>
+          <a href="https://www.figma.com/design/8AaimMOaLFA8Af7bXIA4Kc/STARZ-MOBILE-APP?node-id=354-1947" target="_blank" class="btn" onclick="event.stopPropagation()">🔗 View Project</a>
+        </div>
+      </div>
+      <div class="project-card" data-aos="fade-up" data-aos-delay="200" tabindex="0" aria-label="Text Summarization Using Transformers" onclick="openModal(2)">
+        <img src="https://placehold.co/400x180?text=Text+Summarization" alt="Text Summarization Using Transformers" class="project-img">
+        <div class="project-content">
+          <h3>Text Summarization Using Transformers</h3>
+          <p>Created a Flask app using BART, PEGASUS, and T5 to generate AI-based text summaries. Built with PyTorch & Hugging Face.</p>
+          <span class="btn disabled">🔧 Demo Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close" onclick="closeModal()">&times;</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+      <div id="modalLink"></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // Modal data
+    const projects = [
+      {
+        title: "Dayush Mobile App",
+        desc: "Ayurveda consultation platform. Designed wireframes, user flows, and prototypes in Figma.",
+        link: '<a href="https://www.figma.com/design/TPdX7PDMkHnHpZ4mGkUnUF/DAYUSH?node-id=0-1" target="_blank" class="btn">🔗 View Project</a>'
+      },
+      {
+        title: "Starz Mobile App",
+        desc: "Helps students manage jobs, housing, and classes. Led end-to-end UI/UX design with stakeholder feedback.",
+        link: '<a href="https://www.figma.com/design/8AaimMOaLFA8Af7bXIA4Kc/STARZ-MOBILE-APP?node-id=354-1947" target="_blank" class="btn">🔗 View Project</a>'
+      },
+      {
+        title: "Text Summarization Using Transformers",
+        desc: "Created a Flask app using BART, PEGASUS, and T5 to generate AI-based text summaries. Built with PyTorch & Hugging Face.",
+        link: '<span class="btn disabled">🔧 Demo Coming Soon</span>'
+      }
+    ];
+
+    function openModal(idx) {
+      document.getElementById('modalTitle').textContent = projects[idx].title;
+      document.getElementById('modalDesc').textContent = projects[idx].desc;
+      document.getElementById('modalLink').innerHTML = projects[idx].link;
+      document.getElementById('projectModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.getElementById('projectModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Close modal on outside click or ESC
+    document.getElementById('projectModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
